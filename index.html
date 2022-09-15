@@ -419,13 +419,13 @@
     $('#score_mode, #timer_mode, #retry_game').click(function (event) {
       if (/Mobi/.test(navigator.userAgent))
       {
-        if(window.innerHeight < window.innerWidth)
-        {
+        //if(window.innerHeight < window.innerWidth)
+        //{
           alert('We are sorry for inconvenience.' + 
                 'Our game is not supported on landscape mobile device.' + 
                 'Please use portrait mode.');
           return;
-        }
+        //}
         /*else
           $('#mobile_keypad').show();*/
       }

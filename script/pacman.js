@@ -1546,19 +1546,19 @@ var PACMAN = (function () {
 
     $(window).on('orientationchange', function(){
         if (/Mobi/.test(navigator.userAgent)) { //pause the game if on landscape mobile
-            if(window.innerHeight > window.innerWidth){
+            //if(window.innerHeight > window.innerWidth){
                 if(state != PAUSE)
                     stored = state;
                 setState(PAUSE);
                 audio.pause();
                 map.draw(ctx);
                 dialog("Paused");
-            }
+            //}
         }
     });
 
     $(window).on('resize', function(){
-        if (/Mobi/.test(navigator.userAgent) && window.innerHeight < window.innerWidth) { 
+        if (/Mobi/.test(navigator.userAgent) /*&& window.innerHeight < window.innerWidth*/) { 
             return;
         }
         else
