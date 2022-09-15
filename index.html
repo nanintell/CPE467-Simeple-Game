@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>PACMARIO</title>
+  <!-- Latest compiled and minified CSS -->
+  <link href="./resource/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Latest compiled JavaScript -->
+  <script src="./resource/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!--jquery-->
+  <script src="./resource/js/jquery/jquery-3.6.0.min.js"></script>
+  <!--font awesome-->
+  <script src="https://kit.fontawesome.com/3d2b97c5d9.js" crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    @font-face {
+      font-family: 'BDCartoonShoutRegular';
+      src: url('./BD_Cartoon_Shout-webfont.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    #pacman {
+      max-width: 100%;
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    #shim {
+      font-family: BDCartoonShoutRegular;
+      position: absolute;
+      visibility: hidden
+    }
+
+    h1,
+    h2 {
+      font-family: BDCartoonShoutRegular;
+      text-align: center;
+    }
+
+    body {
+      margin: 0px auto;
+      font-family: BDCartoonShoutRegular;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+
+</head>
+
+<body class="px-3 bg-dark">
+
+  <audio id="title_bgm">
+    <source src="./audio_mario/title.ogg" type="audio/ogg">
+    <source src="./audio_mario/title.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="gameover_bgm">
+    <source src="./audio_mario/gameover.ogg" type="audio/ogg">
+    <source src="./audio_mario/gameover.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="clear_bgm">
+    <source src="./audio_mario/clear.ogg" type="audio/ogg">
+    <source src="./audio_mario/clear.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="eatCherry">
+    <source src="./audio_mario/eatcherry.ogg" type="audio/ogg">
+    <source src="./audio_mario/eatcherry.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="pause_game">
+    <source src="./audio_mario/eatcherry.ogg" type="audio/ogg">
+    <source src="./audio_mario/eatcherry.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="gameplay_bgm">
+    <source src="./audio_mario/gameplay.ogg" type="audio/ogg">
+    <source src="./audio_mario/gameplay.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="modal fade" id="story_intro" tabindex="-1" aria-labelledby="storytitle1" aria-hidden="true">
+    <div class="modal-dialog modal-xl bg-secondary">
+      <div class="modal-content bg-secondary">
+        <div class="modal-header">
+          <h5 class="modal-title text-light" id="storytitle1">Intro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center">
+            <img src="./story/story/story_intro.gif">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="story_end" tabindex="-1" aria-labelledby="storytitle2" aria-hidden="true">
+    <div class="modal-dialog modal-xl bg-secondary">
+      <div class="modal-content bg-secondary">
+        <div class="modal-header">
+          <h5 class="modal-title text-light" id="storytitle2">Ending</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center">
+            <img src="./story/story/story_end.gif">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  </div>
+
+  <div class="container-fluid">
+    <div class="row my-5">
+
+      <div class="col-lg-4 mt-5">
+        <h5 class="text-center text-light mb-3">Score leaderboard</h5>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button id="leaderboard1-tab" class="nav-link link-warning active" data-bs-toggle="tab"
+              data-bs-target="#leaderboard1" type="button" role="tab" aria-controls="leaderboard1" aria-selected="true">
+              Score Mode
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button id="leaderboard2-tab" class="nav-link link-danger" data-bs-toggle="tab"
+              data-bs-target="#leaderboard2" type="button" role="tab" aria-controls="leaderboard2"
+              aria-selected="false">
+              Timer Mode
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="leaderboard">
+          <div class="tab-pane fade show active" id="leaderboard1" role="tabpanel" aria-labelledby="leaderboard1-tab">
+            <table class="table table-dark table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Level</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4">No record yet!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane fade" id="leaderboard2" role="tabpanel" aria-labelledby="leaderboard2-tab">
+            <table class="table table-dark table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Level</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4">No record yet!</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="text-warning text-sm-end">Yellow text = Time limit lose</p>
+          </div>
+        </div>
+        <p class="text-success text-sm-end">Green text = Clear all levels</p>
+      </div>
+
+      <div id="homepage" class="py-3 col-lg-4 bg-black" style="height:100%;">
+        <button type="button" id="sound_status"
+          class="btn btn-outline-danger fw-bold float-end" 
+          style="font-family:sans-serif;font-size:16px;">
+          Sound OFF
+        </button>
+        </br></br>
+        <div id="menu">
+          <h2 class="text-light text-center py-sm-3">PACMARIO</h2>
+          <p class="text-light text-sm text-center">Credit original code to <a
+              href="https://github.com/daleharvey/pacman">daleharvey</a></p>
+          <button type="button" id="choose_mode" class="btn btn-outline-success w-100">
+            New game
+          </button>
+          <button type="button" id="watch_intro" class="btn btn-outline-secondary w-100 mt-3"
+                  data-bs-toggle="modal" data-bs-target="#story_intro">
+            See intro
+          </button>
+        </div>
+
+        <div id="gameplay_mode" style="display:none;">
+          <h2 class="text-light text-center py-sm-3">Gameplay mode</h2>
+          <div class="d-flex justify-content-between">
+            <button type="button" id="score_mode" class="btn btn-outline-warning">SCORE MODE</button>
+            <button type="button" id="timer_mode" class="btn btn-outline-danger">TIMER MODE</button>
+          </div>
+          <button type="button" id="back_menu" class="mt-5 btn btn-outline-light btn-block w-100">BACK TO MODES</button>
+        </div>
+
+        <div id="gameplay" style="display:none;">
+          <button type="button" id="back_gameplay_mode" class="btn btn-outline-light">BACK TO HOME</button>
+          <div id="sprite_archive" style="display:none;">
+            <!--mario-->
+            <img id="mario_idle" src="./sprite/mario/idle.png" height="50">
+            <img id="mario_walk1" src="./sprite/mario/walk1.png" height="50">
+            <img id="mario_walk2" src="./sprite/mario/walk2.png" height="50">
+            <img id="mario_walk3" src="./sprite/mario/walk3.png" height="50">
+            <img id="mario_dead" src="./sprite/mario/dead.png" height="50">
+            <img id="mario_walk1l" src="./sprite/mario/walk1r.png" height="50">
+            <img id="mario_walk2l" src="./sprite/mario/walk2r.png" height="50">
+            <img id="mario_walk3l" src="./sprite/mario/walk3r.png" height="50">
+            <!--koopa troopas-->
+            <img id="koopa_green_idle" src="./sprite/koopa/green_koopa.png" height="50">
+            <img id="koopa_green_walk" src="./sprite/koopa/green_koopa_walk.png" height="50">
+            <img id="koopa_blue_idle" src="./sprite/koopa/blue_koopa.png" height="50">
+            <img id="koopa_blue_walk" src="./sprite/koopa/blue_koopa_walk.png" height="50">
+            <img id="koopa_red_idle" src="./sprite/koopa/red_koopa.png" height="50">
+            <img id="koopa_red_walk" src="./sprite/koopa/red_koopa_walk.png" height="50">
+            <img id="koopa_yellow_idle" src="./sprite/koopa/yellow_koopa.png" height="50">
+            <img id="koopa_yellow_walk" src="./sprite/koopa/yellow_koopa_walk.png" height="50">
+            <img id="koopa_black_idle" src="./sprite/koopa/black_koopa.png" height="50">
+            <img id="koopa_black_walk" src="./sprite/koopa/black_koopa_walk.png" height="50">
+
+            <img id="koopa_green_idler" src="./sprite/koopa/green_koopar.png" height="50">
+            <img id="koopa_green_walkr" src="./sprite/koopa/green_koopa_walkr.png" height="50">
+            <img id="koopa_blue_idler" src="./sprite/koopa/blue_koopar.png" height="50">
+            <img id="koopa_blue_walkr" src="./sprite/koopa/blue_koopa_walkr.png" height="50">
+            <img id="koopa_red_idler" src="./sprite/koopa/red_koopar.png" height="50">
+            <img id="koopa_red_walkr" src="./sprite/koopa/red_koopa_walkr.png" height="50">
+            <img id="koopa_yellow_idler" src="./sprite/koopa/yellow_koopar.png" height="50">
+            <img id="koopa_yellow_walkr" src="./sprite/koopa/yellow_koopa_walkr.png" height="50">
+            <img id="koopa_black_idler" src="./sprite/koopa/black_koopar.png" height="50">
+            <img id="koopa_black_walkr" src="./sprite/koopa/black_koopa_walkr.png" height="50">
+
+            <img id="koopa_green_shell" src="./sprite/koopa/green_koopa_shell.png" height="50">
+            <img id="koopa_blue_shell" src="./sprite/koopa/blue_koopa_shell.png" height="50">
+            <img id="koopa_red_shell" src="./sprite/koopa/red_koopa_shell.png" height="50">
+            <img id="koopa_yellow_shell" src="./sprite/koopa/yellow_koopa_shell.png" height="50">
+            <img id="koopa_black_shell" src="./sprite/koopa/black_koopa_shell.png" height="50">
+            
+            <!--item-->
+            <img id="coin" src="./sprite/coin.png" height="50">
+            <img id="star" src="./sprite/star.png" height="50">
+            <img id="mushroom" src="./sprite/mushroom.png" height="50">
+          </div>
+
+          <div class="row mt-3" style="color:#FFFF00;">
+            <p class="col-sm-4">Lives: <span id="lives"></span></p>
+            <p class="col-sm-4">Score: <span id="score"></span></p>
+            <p class="col-sm-4">Level: <span id="level"></span></p>
+          </div>
+          <div id="timer_clk" class="text-center text-warning" style="display:none;">
+            Timer: <span id="timer">10:03</span>
+          </div>
+          <!--gameplay object-->
+          <div id="pacman"></div>
+
+          <!--keypad for mobile players (not very stable however)-->
+          <div id="mobile_keypad" class="row p-3" style="width:100%;height:20vh;display:none;">
+            <div class="col-sm-7">
+              <button type="button" class="btn btn-outline-light" 
+                style="height:6vh;width:6vh;margin-left:7.5vh;" value="up">
+                <i class="fa-solid fa-2xl fa-arrow-up"></i>
+              </button>
+              </br></br>
+              <button type="button" class="btn btn-outline-light" 
+                style="height:6vh;width:6vh;" value="left">
+                <i class="fa-solid fa-2xl fa-arrow-left"></i>
+              </button>
+              <button type="button" class="btn btn-outline-light" 
+                style="height:6vh;width:6vh;margin:0 1vh;" value="down">
+                <i class="fa-solid fa-2xl fa-arrow-down"></i>
+              </button>
+              <button type="button" class="btn btn-outline-light" 
+                style="height:6vh;width:6vh;" value="right">
+                <i class="fa-solid fa-2xl fa-arrow-right"></i>
+              </button>
+            </div>
+            <div class="col-sm-5 d-flex justify-content-around">
+              <button type="button" class="btn btn-outline-light" 
+                style="height:6vh;width:6vh;text-align:center;" value="n">
+                New game
+              </button>
+              <button type="button" class="btn btn-outline-light" 
+                style="height:6vh;width:6vh;text-align:center;" value="p">
+                Pause
+              </button>
+            </div>
+          </div>
+
+          <div id="game_end" style="display:none;">
+            <h2 id="end_cause" class="text-light text-center py-sm-3"></h2>
+            <button type="button" id="record_score" class="btn btn-outline-light w-100">
+              Record Score
+            </button>
+            <button type="button" id="watch_ending" class="btn btn-outline-secondary w-100 mt-3"
+            data-bs-toggle="modal" data-bs-target="#story_end">
+              See ending
+            </button>
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" id="back_home" class="btn btn-outline-light">
+                Back to home
+              </button>
+              <button type="button" id="retry_game" class="btn btn-outline-danger">
+                Retry
+              </button>
+            </div>
+          </div>
+  
+        </div>
+
+
+
+      </div>
+
+      <div class="col-lg-4 mt-5">
+        <h5 class="text-center text-light">Keybind</h5>
+        <table class="table table-dark table-hover table-responsive">
+          <tbody>
+            <tr>
+              <th scope="row">Move</th>
+              <td>&#8592; &#8593; &#8595; &#8594;</td>
+            </tr>
+            <tr>
+              <th scope="row">New Game</th>
+              <td>N</td>
+            </tr>
+            <tr>
+              <th scope="row">Pause / Resume</th>
+              <td>P</td>
+            </tr>
+          </tbody>
+        </table>
+        <!--<p class="mt-3 text-danger">WARNING! Resizing browser causes the game to reset.</p>-->
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="./script/size_control.js"></script>
+  <script src="./script/audio_control.js"></script>
+  <script src="./script/pacman.js"></script>
+  <script src="./script/modernizr-1.5.min.js"></script>
+
+  <script>
+    var played = false;
+    var retry = false;
+
+    $('#mobile_keypad button').on('touchstart', function(event){ //button click for mobile
+      var pressedkey = event.target.value;
+      var event_object = {};
+
+      if(pressedkey == 'up')
+        event_object.keyCode = KEY.ARROW_UP;
+      else if(pressedkey == 'down')
+        event_object.keyCode = KEY.ARROW_DOWN;
+      else if(pressedkey == 'left')
+        event_object.keyCode = KEY.ARROW_LEFT;
+      else if(pressedkey == 'right')
+        event_object.keyCode = KEY.ARROW_RIGHT;
+      else if(pressedkey == 'n')
+        event_object.keyCode = KEY.N;
+      else if(pressedkey == 'p')
+        event_object.keyCode = KEY.P;
+
+      //console.log(event_object);
+      document.dispatchEvent(new KeyboardEvent('keydown', event_object)); 
+    });
+
+    $('#watch_intro').click(function(){
+      //reset gif
+      $('#story_intro .modal-body img').attr('src', '');
+      $('#story_intro .modal-body img').attr('src', './story/story/story_intro.gif');
+    });
+
+    $('#watch_ending').click(function(){
+      $('#story_end .modal-body img').attr('src', '');
+      $('#story_end .modal-body img').attr('src', './story/story/story_end.gif');
+    })
+
+    $('#choose_mode').click(function () {
+      $('#gameplay_mode').show();
+      $('#menu').hide();
+    });
+
+    $('#back_menu').click(function () {
+      $('#gameplay_mode').hide();
+      $('#menu').show();
+    });
+
+    $('#back_gameplay_mode, #back_home').click(function () {
+      $('#menu').hide();
+      $('#gameplay').hide();
+      $('#gameplay_mode').show();
+      $('#game_end').hide();
+
+      if(!soundDisabled())
+      {
+        $('#title_bgm')[0].load();
+        $('#title_bgm')[0].play();
+        $('#title_bgm')[0].loop = true;
+      }
+
+    });
+
+    $('#score_mode, #timer_mode, #retry_game').click(function (event) {
+      if (/Mobi/.test(navigator.userAgent))
+      {
+        if(window.innerHeight < window.innerWidth)
+        {
+          alert('We are sorry for inconvenience.' + 
+                'Our game is not supported on landscape mobile device.' + 
+                'Please use portrait mode.');
+          return;
+        }
+        else
+          $('#mobile_keypad').show();
+      }
+
+      $('#back_gameplay_mode').show();
+      $('#game_end').hide();
+      $('#gameplay_mode').hide();
+      $('#gameplay').show();
+      $('#pacman').show();
+
+      $('#title_bgm')[0].pause();
+      
+      if (event.target.id == "score_mode") {
+        playmode = 1;
+        $('#timer_clk').hide();
+      }
+      else if (event.target.id == "timer_mode") {
+        $('#timer_clk').show();
+        playmode = 2;
+      }
+
+      let scroll = $('#homepage').position().top;
+      $("html, body").scrollTop(scroll);
+
+      var el = document.getElementById("pacman");
+      if (Modernizr.canvas && Modernizr.localstorage &&
+        Modernizr.audio && (Modernizr.audio.ogg || Modernizr.audio.mp3)) {
+        window.setTimeout(function () {
+          if (!played) {
+            blockSize = $('#pacman')[0].offsetWidth / 21; 
+            PACMAN.init(el, "./");
+            $('#pacman > canvas').height('');
+            if($('#pacman > canvas').height() > window.innerHeight*0.65)
+            {
+                $('#pacman > canvas').height(window.innerHeight*0.65);
+            }
+            played = true;
+          }
+          else {
+            if(event.target.id == 'retry_game')
+            {
+              retry = true;
+            }
+            PACMAN.newgame();
+          }
+        }, 0);
+      } else {
+        el.innerHTML = "Sorry, needs a decent browser<br /><small>" +
+          "(firefox 3.6+, Chrome 4+, Opera 10+ and Safari 4+)</small>";
+      }
+    });
+  </script>
+
+</body>
+
+</html>
