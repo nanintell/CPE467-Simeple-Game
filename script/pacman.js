@@ -1415,10 +1415,11 @@ var PACMAN = (function () {
                 $('#clear_bgm')[0].load();
                 $('#clear_bgm')[0].play();
             }
-
+            $('#watch_ending').show();
         }
         else
         {
+            $('#watch_ending').hide();
             $('#end_cause').text('Game over');
             if(!soundDisabled())
             {
