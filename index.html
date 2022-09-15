@@ -268,7 +268,7 @@
           <div id="pacman"></div>
 
           <!--keypad for mobile players (not very stable however)-->
-          <div id="mobile_keypad" class="row p-3" style="width:100%;height:20vh;display:none;">
+          <!--<div id="mobile_keypad" class="row p-3" style="width:100%;height:20vh;display:none;">
             <div class="col-sm-7">
               <button type="button" class="btn btn-outline-light" 
                 style="height:6vh;width:6vh;margin-left:7.5vh;" value="up">
@@ -298,7 +298,7 @@
                 Pause
               </button>
             </div>
-          </div>
+          </div>-->
 
           <div id="game_end" style="display:none;">
             <h2 id="end_cause" class="text-light text-center py-sm-3"></h2>
@@ -359,7 +359,7 @@
     var played = false;
     var retry = false;
 
-    $('#mobile_keypad button').on('touchstart', function(event){ //button click for mobile
+    /*$('#mobile_keypad button').on('touchstart', function(event){ //button click for mobile
       var pressedkey = event.target.value;
       var event_object = {};
 
@@ -378,7 +378,7 @@
 
       //console.log(event_object);
       document.dispatchEvent(new KeyboardEvent('keydown', event_object)); 
-    });
+    });*/
 
     $('#watch_intro').click(function(){
       //reset gif
