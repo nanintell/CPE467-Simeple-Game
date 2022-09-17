@@ -100,7 +100,7 @@ Pacman.Ghost = function (game, map, colour) {
     function getNewCoord(dir, current) {
 
         //ghost normal speed is between 1 and 3. increase overtime as log base e graph.
-        var speed = isVunerable() ? 1 : isHidden() ? 4 : Math.min(Math.max(Math.round(Math.log(game.getTick()/150)), 1), 3),
+        var speed = isVunerable() ? 1 : isHidden() ? 4 : Math.min(Math.max(Math.round(Math.log(game.getTick()/300)), 1), 3),
             xSpeed = (dir === LEFT && -speed || dir === RIGHT && speed || 0),
             ySpeed = (dir === DOWN && speed || dir === UP && -speed || 0);
 
