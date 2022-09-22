@@ -1398,13 +1398,15 @@ var PACMAN = (function () {
         map.draw(ctx);
         dialog("Press N to Start a new game"); //start game
     }
-
+    
     function game_end(end_cause = 0)
     {
         $('#gameplay_bgm')[0].pause();
         //remove keybind to prevent starting new game while in this page
         document.removeEventListener("keydown", keyDown, true);
         document.removeEventListener("keypress", keyPress, true);
+        //notify the program to add event listener when starting a new game
+        retry = true;
 
         $('#back_gameplay_mode').hide();
         $('#pacman').hide();
