@@ -1074,8 +1074,8 @@ var PACMAN = (function () {
         if(playmode == 2) //time limit + 5 seconds
         {
             gameStart = tick;
-            duration = 605;
-            timer = 605;
+            duration = 185;
+            timer = 185;
         }
         startLevel();
     }
