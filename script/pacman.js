@@ -1301,9 +1301,9 @@ var PACMAN = (function () {
             //alert('Congratulation! You have cleared all avaliable levels.');
             game_end(2);
             level_now = 1;
-             //reset map 
-             //or when preview, 
-             //the program will read Pacman.WALLS[next level which does not exist]
+            //reset map 
+            //or when preview, 
+            //the program will read Pacman.WALLS[next level which does not exist]
             map.reset();
             newgame();  //reset game
             return;
@@ -1387,6 +1387,11 @@ var PACMAN = (function () {
         {
             document.addEventListener("keydown", keyDown, true);
             document.addEventListener("keypress", keyPress, true);
+            //level_now = 1; //reset level to 1
+            while(ghosts.length > 4) //pop extra ghosts 
+            {
+               ghosts.pop()
+            }
         }
         setState(WAITING);
         stateChanged = false;
@@ -1411,6 +1416,7 @@ var PACMAN = (function () {
         if(end_cause == 2)
         {
             $('#end_cause').text('Congratulation!');
+            $('#score').text(5);
             if(!soundDisabled())
             {
                 $('#clear_bgm')[0].load();
@@ -1470,7 +1476,7 @@ var PACMAN = (function () {
                 if (arrToPush.find(function (a) { return a.name != null && a.name.toLowerCase() == user_name.toLowerCase() }) == undefined) {
                     arrToPush.push({
                         "name": (user_name != '' ? user_name : null),
-                        "level": level_now,
+                        "level": (cause == 2 ? 5 : level_now),
                         "score": user.theScore(),
                         "cause": cause
                     });
